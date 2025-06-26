@@ -4,8 +4,10 @@ import { getAuth } from "firebase/auth";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { getAnalytics, isSupported } from "firebase/analytics";
 
 // Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBQ3yXXQiaAnKHD6NvH9c1CB_MKz_n_92w",
   authDomain: "afhoffice-c50a4.firebaseapp.com",
@@ -24,6 +26,9 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const functions = getFunctions(app);
+
+// Initialize Analytics only on client side
+export const analytics = typeof window !== 'undefined' ? isSupported().then(yes => yes ? getAnalytics(app) : null) : null;
 
 // Connect to emulators in development
 if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
