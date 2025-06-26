@@ -7,10 +7,10 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json* ./
+COPY package.json ./
 
-# Install dependencies
-RUN npm ci --only=production || npm install --production
+# Install dependencies (use npm install since package-lock might be out of sync)
+RUN npm install --production
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -22,7 +22,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Build the application
-RUN npm run build || echo "Build failed, continuing..."
+RUN npm run build
 
 # Production image, copy all the files and run next
 FROM base AS runner

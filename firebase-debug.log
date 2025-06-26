@@ -83,3 +83,85 @@
 [debug] [2025-06-26T08:42:30.362Z] Error: ENOENT: no such file or directory, open 'D:\APPLICATIONS\afhoffice\.next\export-marker.json'
 [error] 
 [error] Error: An unexpected error has occurred.
+[debug] [2025-06-26T08:44:38.082Z] ----------------------------------------------------------------------
+[debug] [2025-06-26T08:44:38.085Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\kenne\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2025-06-26T08:44:38.086Z] CLI Version:   14.6.0
+[debug] [2025-06-26T08:44:38.086Z] Platform:      win32
+[debug] [2025-06-26T08:44:38.086Z] Node Version:  v20.16.0
+[debug] [2025-06-26T08:44:38.086Z] Time:          Thu Jun 26 2025 01:44:38 GMT-0700 (Pacific Daylight Time)
+[debug] [2025-06-26T08:44:38.086Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-06-26T08:44:38.359Z] Field "/functions" in "firebase.json" is possibly invalid: must be object
+[debug] [2025-06-26T08:44:38.360Z] Field "/functions/0/runtime" in "firebase.json" is possibly invalid: must be equal to one of the allowed values
+[debug] [2025-06-26T08:44:38.360Z] Field "/functions" in "firebase.json" is possibly invalid: must match a schema in anyOf
+[debug] [2025-06-26T08:44:38.365Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-06-26T08:44:38.365Z] > authorizing via signed-in user (kennethdeveloper02@gmail.com)
+[debug] [2025-06-26T08:44:38.366Z] [iam] checking project adultfamily-smartcare for permissions ["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasedatabase.instances.update","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create",null]
+[debug] [2025-06-26T08:44:38.367Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:38.368Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:38.369Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/adultfamily-smartcare:testIamPermissions [none]
+[debug] [2025-06-26T08:44:38.369Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/adultfamily-smartcare:testIamPermissions x-goog-quota-user=projects/adultfamily-smartcare
+[debug] [2025-06-26T08:44:38.370Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/adultfamily-smartcare:testIamPermissions {"permissions":["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasedatabase.instances.update","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create",null]}
+[debug] [2025-06-26T08:44:38.560Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/adultfamily-smartcare:testIamPermissions 200
+[debug] [2025-06-26T08:44:38.560Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/adultfamily-smartcare:testIamPermissions {"permissions":["cloudconfig.configs.get","cloudconfig.configs.update","cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasedatabase.instances.update","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2025-06-26T08:44:38.560Z] [iam] error while checking permissions, command may fail: Authorization failed. This account is missing the following required permissions on project adultfamily-smartcare:
+
+  
+[debug] [2025-06-26T08:44:38.561Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:38.561Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:38.561Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/adultfamily-smartcare/serviceAccounts/adultfamily-smartcare@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-06-26T08:44:38.561Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/adultfamily-smartcare/serviceAccounts/adultfamily-smartcare@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-06-26T08:44:38.934Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/adultfamily-smartcare/serviceAccounts/adultfamily-smartcare@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-06-26T08:44:38.934Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/adultfamily-smartcare/serviceAccounts/adultfamily-smartcare@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-06-26T08:44:38.934Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:38.934Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:38.935Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare [none]
+[debug] [2025-06-26T08:44:39.136Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare 200
+[debug] [2025-06-26T08:44:39.136Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare {"projectId":"adultfamily-smartcare","projectNumber":"482607162015","displayName":"adultfamily-smartcare","name":"projects/adultfamily-smartcare","resources":{"hostingSite":"adultfamily-smartcare","realtimeDatabaseInstance":"adultfamily-smartcare-default-rtdb"},"state":"ACTIVE","etag":"1_d5a765c2-3d0a-4109-a1ab-78ca049a5289"}
+[debug] [2025-06-26T08:44:39.136Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:39.136Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:39.136Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare [none]
+[debug] [2025-06-26T08:44:39.400Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare 200
+[debug] [2025-06-26T08:44:39.401Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare {"projectId":"adultfamily-smartcare","projectNumber":"482607162015","displayName":"adultfamily-smartcare","name":"projects/adultfamily-smartcare","resources":{"hostingSite":"adultfamily-smartcare","realtimeDatabaseInstance":"adultfamily-smartcare-default-rtdb"},"state":"ACTIVE","etag":"1_d5a765c2-3d0a-4109-a1ab-78ca049a5289"}
+[debug] [2025-06-26T08:44:42.938Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:42.938Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:42.939Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/adultfamily-smartcare/sites pageToken=&pageSize=10
+[debug] [2025-06-26T08:44:43.818Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/adultfamily-smartcare/sites 200
+[debug] [2025-06-26T08:44:43.818Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/adultfamily-smartcare/sites {"sites":[{"name":"projects/adultfamily-smartcare/sites/adultfamily-smartcare","defaultUrl":"https://adultfamily-smartcare.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2025-06-26T08:44:43.819Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:43.819Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:43.819Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/adultfamily-smartcare/sites 
+[debug] [2025-06-26T08:44:44.301Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/adultfamily-smartcare/sites 200
+[debug] [2025-06-26T08:44:44.301Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/adultfamily-smartcare/sites {"sites":[{"name":"projects/adultfamily-smartcare/sites/adultfamily-smartcare","defaultUrl":"https://adultfamily-smartcare.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2025-06-26T08:44:44.301Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:44.301Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:44.302Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare/webApps/-/config [none]
+[debug] [2025-06-26T08:44:44.737Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare/webApps/-/config 200
+[debug] [2025-06-26T08:44:44.737Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare/webApps/-/config {"projectId":"adultfamily-smartcare","databaseURL":"https://adultfamily-smartcare-default-rtdb.firebaseio.com","storageBucket":"adultfamily-smartcare.firebasestorage.app","apiKey":"AIzaSyCsZYh3dqbWuCGAt-Aha77jhYPTl5WDHyk","authDomain":"adultfamily-smartcare.firebaseapp.com","messagingSenderId":"482607162015"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2025-06-26T08:44:52.607Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:52.607Z] Checked if tokens are valid: true, expires at: 1750930187664
+[debug] [2025-06-26T08:44:52.607Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/adultfamily-smartcare/sites/adultfamily-smartcare [none]
+[debug] [2025-06-26T08:44:53.248Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/adultfamily-smartcare/sites/adultfamily-smartcare 200
+[debug] [2025-06-26T08:44:53.248Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/adultfamily-smartcare/sites/adultfamily-smartcare {"name":"projects/adultfamily-smartcare/sites/adultfamily-smartcare","defaultUrl":"https://adultfamily-smartcare.web.app","type":"DEFAULT_SITE"}
+[info]    Creating an optimized production build ...
+
+[info] Failed to compile.
+
+Error: EISDIR: illegal operation on a directory, readlink 'D:\APPLICATIONS\afhoffice\node_modules\next\dist\pages\_app.js'
+
+
+> Build failed because of webpack errors
+
+[debug] [2025-06-26T08:44:57.983Z] Error: ENOENT: no such file or directory, open 'D:\APPLICATIONS\afhoffice\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
