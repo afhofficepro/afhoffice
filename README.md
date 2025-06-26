@@ -1,330 +1,133 @@
-# AFH Office - Multi-Tenant SaaS Platform
+# AFH Office - Multi-Tenant Healthcare SaaS Platform
 
-A complete multi-tenant SaaS application built with Next.js, Firebase, and Stripe for Adult Family Home management. This platform provides workspace-per-subdomain architecture with comprehensive tenant isolation.
+A comprehensive healthcare management system designed specifically for Adult Family Homes (AFH), providing multi-tenant capabilities, resident management, staff scheduling, medication tracking, and compliance reporting.
 
-## 🏗️ Architecture Overview
+## 🚀 Features
 
-### Core Components
+- **Multi-Tenant Architecture**: Secure, isolated environments for multiple facilities
+- **Resident Management**: Complete resident profiles, health records, and care plans
+- **Staff Management**: Scheduling, role-based access control, and activity tracking
+- **Medication Tracking**: Medication administration records (MAR) with alerts
+- **Compliance Reporting**: Generate reports for state compliance and audits
+- **Real-time Updates**: Live synchronization across all users
+- **Mobile Responsive**: Works seamlessly on desktop, tablet, and mobile devices
 
-- **Multi-tenant Routing**: Subdomain-based tenant isolation (`tenant.afhoffice.com`)
-- **Firebase Authentication**: User management with custom tenant claims
-- **Firestore Database**: Tenant-scoped data with security rules
-- **Stripe Integration**: Subscription billing and automatic tenant provisioning
-- **Next.js Middleware**: Edge-based tenant resolution
-- **TypeScript**: Full type safety across the application
+## 🛠️ Tech Stack
 
-### Tenant Isolation Strategy
+- **Frontend**: Next.js 15.3.4, React, TypeScript, Tailwind CSS
+- **Backend**: Firebase (Firestore, Authentication, Functions)
+- **Hosting**: Firebase Hosting
+- **Development**: Turbopack for fast builds
 
-- **Pooled Database**: Single Firestore database with tenant-scoped collections
-- **Custom Claims**: Firebase Auth tokens include `tenantId` and `role`
-- **Security Rules**: Firestore rules enforce tenant data isolation
-- **Middleware**: Request-level tenant context injection
+## 📋 Prerequisites
+
+- Node.js 18+ and npm
+- Firebase CLI (`npm install -g firebase-tools`)
+- Git
 
 ## 🚀 Quick Start
 
-### 1. Prerequisites
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/afhofficepro/afh.git
+   cd afh
+   ```
 
-- Node.js 18+
-- Firebase CLI
-- Stripe account
-- Domain with DNS management
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-### 2. Installation
+3. **Set up environment variables**
+   ```bash
+   cp env.template .env.local
+   # Edit .env.local with your Firebase configuration
+   ```
 
-```bash
-# Clone and install dependencies
-npm install
-
-# Copy environment template
-cp env.template .env.local
-
-# Install Firebase CLI globally
-npm install -g firebase-tools
-```
-
-### 3. Firebase Setup
-
-```bash
-# Login to Firebase
-firebase login
-
-# Initialize Firebase project
-firebase init
-
-# Deploy Firestore rules and indexes
-firebase deploy --only firestore:rules,firestore:indexes
-```
-
-### 4. Environment Configuration
-
-Update `.env.local` with your credentials:
-
-```env
-# Firebase Configuration (from Firebase Console)
-NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
-
-# Firebase Admin SDK
-FIREBASE_CLIENT_EMAIL=your-service-account@your-project.iam.gserviceaccount.com
-FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour private key\n-----END PRIVATE KEY-----\n"
-
-# Stripe Configuration
-STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
-STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
-
-# Stripe Price IDs (create in Stripe Dashboard)
-STRIPE_STARTER_PRICE_ID=price_starter_id
-STRIPE_PROFESSIONAL_PRICE_ID=price_professional_id
-STRIPE_ENTERPRISE_PRICE_ID=price_enterprise_id
-
-# Domain Configuration
-NEXT_PUBLIC_BASE_DOMAIN=yourdomain.com
-```
-
-### 5. Domain Setup
-
-1. **Wildcard DNS**: Add DNS records for `*.yourdomain.com` pointing to your hosting
-2. **Firebase App Hosting**: Enable App Hosting and add wildcard domain
-3. **SSL Certificate**: Automatic via Firebase App Hosting
-
-### 6. Stripe Configuration
-
-1. Create products and prices in Stripe Dashboard
-2. Set up webhook endpoint: `https://yourdomain.com/api/stripe-webhook`
-3. Add webhook events: `checkout.session.completed`, `customer.subscription.updated`, etc.
-
-## 🛠️ Development
-
-```bash
-# Start development server
-npm run dev
-
-# Start Firebase emulators
-firebase emulators:start
-
-# Build for production
-npm run build
-```
-
-### 🌐 Testing the Multi-Tenant Flow
-
-The application now includes a professional onboarding flow:
-
-1. **Landing Page**: `http://localhost:3001/landing`
-   - Complete workspace setup with 4-step wizard
-   - Workspace name selection with live preview
-   - Account creation
-   - Plan selection (Starter, Professional, Enterprise)
-   - Payment summary and Stripe integration
-
-2. **Sign In Page**: `http://localhost:3001/signin`
-   - For users with existing workspaces
-   - Enter workspace name + credentials
-   - Redirects to workspace subdomain
-
-3. **Main App**: `http://localhost:3001`
-   - Redirects to landing page if no tenant found
-   - Shows login form for valid tenant subdomains
-   - Multi-tenant dashboard after authentication
-
-### 📱 User Journey
-
-1. **New Users**: Visit any URL → Redirected to `/landing` → Complete setup → Stripe checkout
-2. **Existing Users**: Visit `/signin` → Enter workspace + credentials → Redirected to `{workspace}.afhoffice.com`
-3. **Tenant Users**: Visit `{workspace}.afhoffice.com` → Login form → Dashboard
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 ## 📁 Project Structure
 
 ```
-src/
-├── app/                    # Next.js App Router
-│   ├── api/               # API routes
-│   │   ├── create-checkout/
-│   │   └── stripe-webhook/
-│   ├── setup/             # Tenant onboarding
-│   ├── suspended/         # Suspended tenant page
-│   ├── pending/           # Pending tenant page
-│   └── page.tsx           # Main dashboard
-├── components/            # React components
-│   ├── auth/             # Authentication components
-│   ├── ui/               # Reusable UI components
-│   ├── DashboardHeader.tsx
-│   └── DashboardContent.tsx
-├── contexts/             # React contexts  
-│   └── AuthContext.tsx   # Auth & tenant context
-├── lib/                  # Utilities
-│   ├── firebase.ts       # Firebase configuration
-│   ├── types.ts          # TypeScript interfaces
-│   ├── utils.ts          # Utility functions
-│   └── getTenantConfig.ts # Tenant resolution
-└── middleware.ts         # Multi-tenant routing
+afhoffice/
+├── src/
+│   ├── app/              # Next.js app directory
+│   ├── components/       # React components
+│   ├── contexts/         # React contexts
+│   └── lib/             # Utilities and configurations
+├── public/              # Static assets
+├── scripts/             # Utility scripts
+├── docs/                # Documentation
+└── firebase/            # Firebase configuration files
 ```
 
-## 🔒 Security Features
+## 🔧 Available Scripts
 
-### Firestore Security Rules
-
-- **Tenant Isolation**: Users can only access their tenant's data
-- **Role-Based Access**: Owner/Admin/Member role enforcement
-- **Custom Claims**: Firebase Auth tokens carry tenant context
-- **Admin SDK Only**: Tenant metadata managed server-side
-
-### Authentication Flow
-
-1. User signs in → Firebase Auth
-2. Cloud Function sets custom claims (`tenantId`, `role`)
-3. Client receives token with tenant context
-4. Firestore rules enforce tenant isolation
-
-## 💳 Billing & Provisioning
-
-### Subscription Plans
-
-- **Starter**: $29/month - 5 users, basic features
-- **Professional**: $79/month - 25 users, advanced features, custom domain
-- **Enterprise**: $199/month - 100 users, API access, priority support
-
-### Automatic Provisioning
-
-1. Customer completes Stripe checkout
-2. Webhook creates tenant in Firestore
-3. Sets custom claims for owner user
-4. Sends workspace ready notification
-
-## 🌐 Multi-Tenant Features
-
-### Subdomain Routing
-
-- `tenant1.afhoffice.com` → Tenant 1 workspace
-- `tenant2.afhoffice.com` → Tenant 2 workspace
-- Middleware resolves tenant from subdomain
-
-### Custom Domains (Professional+)
-
-- `customdomain.com` → Maps to tenant workspace
-- Automatic SSL certificate provisioning
-- DNS verification process
-
-### Tenant States
-
-- **Active**: Full access to workspace
-- **Pending**: Setup in progress
-- **Suspended**: Payment issues or violations
-
-## 🔧 Customization
-
-### Adding New Features
-
-1. Update `src/lib/types.ts` for new interfaces
-2. Add Firestore collections under `tenantData/{tenantId}/`
-3. Update security rules in `firestore.rules`
-4. Create UI components and API routes
-
-### Plan Features
-
-Update `getPlanFeatures()` in `src/app/api/stripe-webhook/route.ts`:
-
-```typescript
-function getPlanFeatures(plan: string) {
-  switch (plan) {
-    case 'enterprise':
-      return {
-        customDomain: true,
-        advancedReporting: true,
-        apiAccess: true,
-        prioritySupport: true,
-      };
-    // ... other plans
-  }
-}
-```
+- `npm run dev` - Start development server with Turbopack
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run deploy` - Deploy to Firebase Hosting
 
 ## 🚀 Deployment
 
-### Firebase App Hosting
+### Firebase Deployment
 
-```bash
-# Deploy to staging
-firebase deploy --project staging
+1. **Build the application**
+   ```bash
+   npm run build
+   ```
 
-# Deploy to production  
-firebase deploy --project production
-```
+2. **Deploy to Firebase**
+   ```bash
+   firebase deploy
+   ```
 
-### Environment Variables
+Or use the convenience scripts:
+- Windows: `.\deploy.bat`
+- PowerShell: `.\deploy.ps1`
 
-Set production environment variables in Firebase Functions:
+## 🔐 Security
 
-```bash
-firebase functions:config:set stripe.secret_key="sk_live_..." \
-  stripe.webhook_secret="whsec_..." \
-  --project production
-```
+- Multi-tenant data isolation with Firestore security rules
+- Role-based access control (Owner, Admin, Manager, Caregiver, Viewer)
+- HIPAA-compliant data handling
+- Secure authentication with Firebase Auth
 
-## 📊 Monitoring
+## 📚 Documentation
 
-### Firebase Analytics
-
-- User engagement tracking
-- Tenant usage metrics
-- Feature adoption rates
-
-### Error Handling
-
-- Comprehensive error boundaries
-- Firebase Crashlytics integration
-- User-friendly error messages
-
-## 🔄 Development Workflow
-
-### Local Development
-
-1. Start Firebase emulators
-2. Use `localhost:3000` with default tenant
-3. Test tenant isolation with different subdomains
-
-### Testing
-
-```bash
-# Run tests
-npm test
-
-# Test with different tenant contexts
-TENANT_ID=test-tenant npm test
-```
-
-## 📈 Scaling Considerations
-
-### Database Scaling
-
-- Monitor Firestore usage and costs
-- Consider schema-per-tenant for large tenants
-- Implement data archiving strategies
-
-### Performance Optimization
-
-- Implement tenant config caching (Redis)
-- Use CDN for static assets
-- Optimize Firestore queries with indexes
+- [Multi-Tenant Architecture](docs/MULTI_TENANT_ARCHITECTURE.md)
+- [Deployment Guide](DEPLOYMENT_GUIDE.md)
+- [GitHub Setup Guide](GITHUB_SETUP_GUIDE.md)
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create feature branch
-3. Update tests and documentation
-4. Submit pull request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📄 License
 
-MIT License - see LICENSE file for details
+This project is proprietary software. All rights reserved.
 
-## 🆘 Support
+## 📞 Support
 
-- Documentation: [Wiki](link-to-wiki)
-- Issues: [GitHub Issues](link-to-issues)
-- Email: support@afhoffice.com
+For support, email support@afhoffice.com or create an issue in this repository.
+
+## 🏗️ Roadmap
+
+- [ ] Advanced reporting dashboard
+- [ ] Mobile app (React Native)
+- [ ] Integration with medical devices
+- [ ] AI-powered care insights
+- [ ] Telehealth integration
 
 ---
 
-Built with ❤️ for Adult Family Home providers worldwide.
+Built with ❤️ for Adult Family Homes
