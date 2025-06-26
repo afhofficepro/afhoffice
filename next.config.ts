@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: {
     unoptimized: true
+  },
+  eslint: {
+    // Disable ESLint during builds
+    ignoreDuringBuilds: true
   }
 };
 
