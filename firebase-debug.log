@@ -1,0 +1,87 @@
+[debug] [2025-06-26T06:22:20.397Z] ----------------------------------------------------------------------
+[debug] [2025-06-26T06:22:20.400Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\kenne\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-06-26T06:22:20.401Z] CLI Version:   14.6.0
+[debug] [2025-06-26T06:22:20.401Z] Platform:      win32
+[debug] [2025-06-26T06:22:20.401Z] Node Version:  v20.16.0
+[debug] [2025-06-26T06:22:20.401Z] Time:          Wed Jun 25 2025 23:22:20 GMT-0700 (Pacific Daylight Time)
+[debug] [2025-06-26T06:22:20.401Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-06-26T06:22:20.640Z] Field "/functions/runtime" in "firebase.json" is possibly invalid: must be equal to one of the allowed values
+[debug] [2025-06-26T06:22:20.641Z] Field "/functions" in "firebase.json" is possibly invalid: must be array
+[debug] [2025-06-26T06:22:20.641Z] Field "/functions" in "firebase.json" is possibly invalid: must match a schema in anyOf
+[debug] [2025-06-26T06:22:20.645Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-06-26T06:22:20.646Z] > authorizing via signed-in user (kennethdeveloper02@gmail.com)
+[debug] [2025-06-26T06:22:20.647Z] Field "/functions/runtime" in "firebase.json" is possibly invalid: must be equal to one of the allowed values
+[debug] [2025-06-26T06:22:20.647Z] Field "/functions" in "firebase.json" is possibly invalid: must be array
+[debug] [2025-06-26T06:22:20.647Z] Field "/functions" in "firebase.json" is possibly invalid: must match a schema in anyOf
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\APPLICATIONS\afhoffice
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-06-26T06:22:50.966Z] Using project from CLI flag: adultfamily-smartcare
+[debug] [2025-06-26T06:22:50.968Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:22:50.968Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:22:50.970Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare [none]
+[debug] [2025-06-26T06:22:51.264Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare 200
+[debug] [2025-06-26T06:22:51.264Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/adultfamily-smartcare {"projectId":"adultfamily-smartcare","projectNumber":"482607162015","displayName":"adultfamily-smartcare","name":"projects/adultfamily-smartcare","resources":{"hostingSite":"adultfamily-smartcare"},"state":"ACTIVE","etag":"1_7331cd66-3d60-4b7d-b6da-dccd29c5cc06"}
+[info] i  Using project adultfamily-smartcare (adultfamily-smartcare) 
+[info] 
+=== Dataconnect Setup
+[debug] [2025-06-26T06:22:51.271Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:22:51.271Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:22:51.271Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/adultfamily-smartcare/billingInfo [none]
+[debug] [2025-06-26T06:22:51.471Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/adultfamily-smartcare/billingInfo 200
+[debug] [2025-06-26T06:22:51.471Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/adultfamily-smartcare/billingInfo {"name":"projects/adultfamily-smartcare/billingInfo","projectId":"adultfamily-smartcare","billingAccountName":"billingAccounts/019723-F8047C-D4A984","billingEnabled":true}
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[debug] [2025-06-26T06:22:51.473Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:22:51.473Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:22:51.473Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com [none]
+[debug] [2025-06-26T06:22:51.473Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com x-goog-quota-user=projects/adultfamily-smartcare
+[debug] [2025-06-26T06:22:51.925Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com 200
+[debug] [2025-06-26T06:22:51.925Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com [omitted]
+[warn] !  dataconnect: missing required API firebasedataconnect.googleapis.com. Enabling now... 
+[debug] [2025-06-26T06:22:51.926Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:22:51.926Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:22:51.926Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com:enable [none]
+[debug] [2025-06-26T06:22:51.926Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com:enable x-goog-quota-user=projects/adultfamily-smartcare
+[debug] [2025-06-26T06:22:52.466Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com:enable 200
+[debug] [2025-06-26T06:22:52.466Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com:enable [omitted]
+[debug] [2025-06-26T06:23:02.478Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:23:02.478Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:23:02.479Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com [none]
+[debug] [2025-06-26T06:23:02.479Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com x-goog-quota-user=projects/adultfamily-smartcare
+[debug] [2025-06-26T06:23:02.900Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com 200
+[debug] [2025-06-26T06:23:02.900Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/firebasedataconnect.googleapis.com [omitted]
+[info] +  dataconnect: required API firebasedataconnect.googleapis.com is enabled 
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[debug] [2025-06-26T06:23:02.903Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:23:02.903Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:23:02.903Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/sqladmin.googleapis.com [none]
+[debug] [2025-06-26T06:23:02.903Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/sqladmin.googleapis.com x-goog-quota-user=projects/adultfamily-smartcare
+[debug] [2025-06-26T06:23:03.293Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/sqladmin.googleapis.com 200
+[debug] [2025-06-26T06:23:03.293Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/sqladmin.googleapis.com [omitted]
+[warn] !  dataconnect: missing required API sqladmin.googleapis.com. Enabling now... 
+[debug] [2025-06-26T06:23:03.293Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:23:03.294Z] Checked if tokens are valid: true, expires at: 1750922035468
+[debug] [2025-06-26T06:23:03.294Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/sqladmin.googleapis.com:enable [none]
+[debug] [2025-06-26T06:23:03.294Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/sqladmin.googleapis.com:enable x-goog-quota-user=projects/adultfamily-smartcare
+[debug] [2025-06-26T06:23:03.543Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/sqladmin.googleapis.com:enable 200
+[debug] [2025-06-26T06:23:03.543Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/adultfamily-smartcare/services/sqladmin.googleapis.com:enable [omitted]

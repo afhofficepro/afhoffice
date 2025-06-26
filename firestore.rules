@@ -1,0 +1,277 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getTenantId() {
+      return request.auth.token.tenantId;
+    }
+    
+    function hasRole(role) {
+      return request.auth.token.role == role;
+    }
+    
+    function isOwnerOrAdmin() {
+      return hasRole('owner') || hasRole('admin');
+    }
+    
+    function belongsToTenant(docTenantId) {
+      return isAuthenticated() && getTenantId() == docTenantId;
+    }
+    
+    function canReadTenantData(docTenantId) {
+      return belongsToTenant(docTenantId);
+    }
+    
+    function canWriteTenantData(docTenantId) {
+      return belongsToTenant(docTenantId) && 
+             (hasRole('owner') || hasRole('admin') || hasRole('manager'));
+    }
+    
+    // ============ Tenants Collection ============
+    match /tenants/{tenantId} {
+      allow read: if isAuthenticated() && 
+                     (getTenantId() == tenantId || hasRole('superadmin'));
+      allow create: if hasRole('superadmin');
+      allow update: if belongsToTenant(tenantId) && isOwnerOrAdmin();
+      allow delete: if false; // Never allow deletion
+      
+      // Tenant settings subcollection
+      match /settings/{settingId} {
+        allow read: if belongsToTenant(tenantId);
+        allow write: if belongsToTenant(tenantId) && isOwnerOrAdmin();
+      }
+      
+      // Audit logs subcollection
+      match /auditLogs/{logId} {
+        allow read: if belongsToTenant(tenantId) && isOwnerOrAdmin();
+        allow create: if belongsToTenant(tenantId);
+        allow update, delete: if false; // Audit logs are immutable
+      }
+    }
+    
+    // ============ Users Collection ============
+    match /users/{userId} {
+      allow read: if isAuthenticated() && 
+                     (request.auth.uid == userId || 
+                      belongsToTenant(resource.data.defaultTenant));
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isAuthenticated() && 
+                       (request.auth.uid == userId || isOwnerOrAdmin());
+      allow delete: if false;
+      
+      // User memberships subcollection
+      match /memberships/{membershipId} {
+        allow read: if isAuthenticated() && 
+                       (request.auth.uid == userId || 
+                        belongsToTenant(resource.data.tenantId));
+        allow write: if belongsToTenant(resource.data.tenantId) && isOwnerOrAdmin();
+      }
+    }
+    
+    // ============ Memberships Collection (alternative to subcollection) ============
+    match /memberships/{membershipId} {
+      allow read: if belongsToTenant(resource.data.tenantId);
+      allow create: if canWriteTenantData(request.resource.data.tenantId) && 
+                       isOwnerOrAdmin();
+      allow update: if canWriteTenantData(resource.data.tenantId) && 
+                       isOwnerOrAdmin();
+      allow delete: if canWriteTenantData(resource.data.tenantId) && 
+                       isOwnerOrAdmin();
+    }
+    
+    // ============ Plans Collection (Public) ============
+    match /plans/{planId} {
+      allow read: if true; // Public pricing
+      allow write: if hasRole('superadmin');
+    }
+    
+    // ============ Subscriptions Collection ============
+    match /subscriptions/{subscriptionId} {
+      allow read: if belongsToTenant(resource.data.tenantId);
+      allow write: if false; // Only Stripe webhook can write
+    }
+    
+    // ============ Facilities Collection ============
+    match /facilities/{facilityId} {
+      allow read: if canReadTenantData(resource.data.tenantId);
+      allow create: if canWriteTenantData(request.resource.data.tenantId);
+      allow update: if canWriteTenantData(resource.data.tenantId);
+      allow delete: if belongsToTenant(resource.data.tenantId) && hasRole('owner');
+      
+      // Evacuation drills subcollection
+      match /evacuationDrills/{drillId} {
+        allow read: if canReadTenantData(resource.data.tenantId);
+        allow write: if canWriteTenantData(resource.data.tenantId);
+      }
+    }
+    
+    // ============ Staff Collection ============
+    match /staff/{staffId} {
+      allow read: if canReadTenantData(resource.data.tenantId);
+      allow create: if canWriteTenantData(request.resource.data.tenantId);
+      allow update: if canWriteTenantData(resource.data.tenantId);
+      allow delete: if canWriteTenantData(resource.data.tenantId);
+      
+      // Timesheets subcollection
+      match /timesheets/{timesheetId} {
+        allow read: if canReadTenantData(resource.data.tenantId) ||
+                       (isAuthenticated() && parent(/databases/$(database)/documents/staff/$(staffId)).userId == request.auth.uid);
+        allow write: if canWriteTenantData(resource.data.tenantId) ||
+                        (isAuthenticated() && parent(/databases/$(database)/documents/staff/$(staffId)).userId == request.auth.uid);
+      }
+      
+      // Staff documents subcollection
+      match /documents/{documentId} {
+        allow read: if canReadTenantData(resource.data.tenantId);
+        allow write: if canWriteTenantData(resource.data.tenantId);
+      }
+    }
+    
+    // ============ Residents Collection ============
+    match /residents/{residentId} {
+      allow read: if canReadTenantData(resource.data.tenantId);
+      allow create: if canWriteTenantData(request.resource.data.tenantId);
+      allow update: if canWriteTenantData(resource.data.tenantId);
+      allow delete: if canWriteTenantData(resource.data.tenantId) && isOwnerOrAdmin();
+      
+      // Care plans subcollection
+      match /carePlans/{carePlanId} {
+        allow read: if canReadTenantData(resource.data.tenantId);
+        allow write: if canWriteTenantData(resource.data.tenantId);
+      }
+      
+      // Medications subcollection
+      match /medications/{medicationId} {
+        allow read: if canReadTenantData(resource.data.tenantId);
+        allow write: if canWriteTenantData(resource.data.tenantId) && 
+                        (hasRole('owner') || hasRole('admin') || hasRole('manager') || hasRole('caregiver'));
+      }
+      
+      // Vitals subcollection
+      match /vitals/{vitalId} {
+        allow read: if canReadTenantData(resource.data.tenantId);
+        allow create: if canWriteTenantData(request.resource.data.tenantId);
+        allow update: if canWriteTenantData(resource.data.tenantId) && 
+                         resource.data.recordedBy == request.auth.uid;
+        allow delete: if false; // Vitals should not be deleted
+      }
+      
+      // Resident documents subcollection
+      match /documents/{documentId} {
+        allow read: if canReadTenantData(resource.data.tenantId);
+        allow write: if canWriteTenantData(resource.data.tenantId);
+      }
+    }
+    
+    // ============ Tasks Collection ============
+    match /tasks/{taskId} {
+      allow read: if canReadTenantData(resource.data.tenantId);
+      allow create: if canWriteTenantData(request.resource.data.tenantId);
+      allow update: if canWriteTenantData(resource.data.tenantId) ||
+                       (belongsToTenant(resource.data.tenantId) && 
+                        resource.data.assigneeId == request.auth.uid);
+      allow delete: if canWriteTenantData(resource.data.tenantId);
+    }
+    
+    // ============ EMARs Collection ============
+    match /emars/{emarId} {
+      allow read: if canReadTenantData(resource.data.tenantId);
+      allow write: if canWriteTenantData(resource.data.tenantId) && 
+                      (hasRole('owner') || hasRole('admin') || hasRole('manager') || hasRole('caregiver'));
+      
+      // Medication doses subcollection
+      match /doses/{doseId} {
+        allow read: if canReadTenantData(resource.data.tenantId);
+        allow create: if belongsToTenant(request.resource.data.tenantId) && 
+                         (hasRole('caregiver') || hasRole('manager') || isOwnerOrAdmin());
+        allow update: if false; // Doses are immutable once created
+        allow delete: if false;
+      }
+    }
+    
+    // ============ Documents Collection ============
+    match /documents/{documentId} {
+      allow read: if canReadTenantData(resource.data.tenantId) &&
+                     (resource.data.isConfidential != true || 
+                      hasRole(resource.data.allowedRoles));
+      allow create: if canWriteTenantData(request.resource.data.tenantId);
+      allow update: if canWriteTenantData(resource.data.tenantId);
+      allow delete: if canWriteTenantData(resource.data.tenantId) && isOwnerOrAdmin();
+    }
+    
+    // ============ Alerts Collection ============
+    match /alerts/{alertId} {
+      allow read: if canReadTenantData(resource.data.tenantId);
+      allow create: if canWriteTenantData(request.resource.data.tenantId);
+      allow update: if canWriteTenantData(resource.data.tenantId);
+      allow delete: if false; // Alerts should be resolved, not deleted
+    }
+    
+    // ============ Reports Cache Collection ============
+    match /reportsCache/{reportId} {
+      allow read: if canReadTenantData(resource.data.tenantId);
+      allow write: if false; // Only system can write
+    }
+    
+    // ============ Health Integrations Collection ============
+    match /healthIntegrations/{integrationId} {
+      allow read: if canReadTenantData(resource.data.tenantId) && isOwnerOrAdmin();
+      allow write: if canWriteTenantData(resource.data.tenantId) && isOwnerOrAdmin();
+    }
+    
+    // ============ Notifications Collection ============
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated() && 
+                     (resource.data.recipientId == request.auth.uid ||
+                      canReadTenantData(resource.data.tenantId));
+      allow create: if canWriteTenantData(request.resource.data.tenantId);
+      allow update: if isAuthenticated() && 
+                       resource.data.recipientId == request.auth.uid;
+      allow delete: if false;
+    }
+    
+    // ============ Support Tickets Collection ============
+    match /supportTickets/{ticketId} {
+      allow read: if belongsToTenant(resource.data.tenantId) ||
+                     resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated();
+      allow update: if belongsToTenant(resource.data.tenantId) ||
+                       resource.data.userId == request.auth.uid;
+      allow delete: if false;
+      
+      // Ticket messages subcollection
+      match /messages/{messageId} {
+        allow read: if belongsToTenant(resource.data.tenantId) ||
+                       parent(/databases/$(database)/documents/supportTickets/$(ticketId)).userId == request.auth.uid;
+        allow create: if isAuthenticated();
+        allow update, delete: if false; // Messages are immutable
+      }
+    }
+    
+    // ============ System Logs Collection ============
+    match /systemLogs/{logId} {
+      allow read: if hasRole('superadmin') || 
+                     (resource.data.tenantId != null && 
+                      belongsToTenant(resource.data.tenantId) && 
+                      isOwnerOrAdmin());
+      allow write: if false; // Only Cloud Functions can write
+    }
+    
+    // ============ Feature Flags Collection ============
+    match /featureFlags/{flagId} {
+      allow read: if isAuthenticated();
+      allow write: if hasRole('superadmin');
+    }
+    
+    // ============ Custom Domains Collection ============
+    match /customDomains/{domainId} {
+      allow read: if canReadTenantData(resource.data.tenantId);
+      allow write: if canWriteTenantData(resource.data.tenantId) && isOwnerOrAdmin();
+    }
+  }
+} 

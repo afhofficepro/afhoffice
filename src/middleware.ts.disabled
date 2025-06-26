@@ -1,0 +1,103 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getTenantConfig, getTenantByCustomDomain } from "./lib/getTenantConfig";
+
+export async function middleware(req: NextRequest) {
+  const host = req.headers.get("host");
+  const url = req.nextUrl.clone();
+
+  // Skip middleware for API routes, static files, and Next.js internals
+  if (
+    url.pathname.startsWith("/api/") ||
+    url.pathname.startsWith("/_next/") ||
+    url.pathname.startsWith("/favicon.ico") ||
+    url.pathname.includes(".")
+  ) {
+    return NextResponse.next();
+  }
+
+  // Handle localhost development
+  if (!host || host.includes("localhost") || host.includes("127.0.0.1")) {
+    // In development, redirect to landing page unless accessing specific routes
+    if (url.pathname !== "/landing" && url.pathname !== "/signin" && url.pathname !== "/setup" && !url.pathname.startsWith("/_next") && !url.pathname.startsWith("/api")) {
+      url.pathname = "/landing";
+      return NextResponse.redirect(url);
+    }
+    
+    // For landing/signin pages, allow access without tenant
+    if (url.pathname === "/landing" || url.pathname === "/signin") {
+      return NextResponse.next();
+    }
+    
+    // For other development routes, use default tenant
+    const res = NextResponse.next();
+    res.headers.set("x-tenant-id", "dev");
+    res.headers.set("x-tenant-name", "Development");
+    return res;
+  }
+
+  // Extract tenant slug from subdomain
+  const hostParts = host.split(".");
+  let tenantSlug: string | null = null;
+  let config = null;
+
+  // Check if it's a subdomain (e.g., tenant.afhoffice.com)
+  if (hostParts.length >= 3) {
+    tenantSlug = hostParts[0];
+    config = await getTenantConfig(tenantSlug);
+  } 
+  // Check if it's a custom domain
+  else if (hostParts.length === 2) {
+    config = await getTenantByCustomDomain(host);
+    tenantSlug = config?.slug || null;
+  }
+
+  // Handle tenant not found or inactive
+  if (!config || !tenantSlug) {
+    // Redirect to landing page for workspace setup
+    if (url.pathname !== "/landing" && url.pathname !== "/setup") {
+      url.pathname = "/landing";
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
+  }
+
+  // Handle suspended tenants
+  if (config.status === "suspended") {
+    if (url.pathname !== "/suspended") {
+      url.pathname = "/suspended";
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
+  }
+
+  // Handle pending tenants
+  if (config.status === "pending") {
+    if (url.pathname !== "/pending") {
+      url.pathname = "/pending";
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
+  }
+
+  // Add tenant information to headers for the app to use
+  const res = NextResponse.next();
+  res.headers.set("x-tenant-id", tenantSlug);
+  res.headers.set("x-tenant-name", config.name);
+  res.headers.set("x-tenant-status", config.status);
+  res.headers.set("x-tenant-config", JSON.stringify(config));
+
+  return res;
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
+}; 
