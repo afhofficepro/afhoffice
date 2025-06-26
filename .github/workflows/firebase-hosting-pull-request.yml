@@ -17,7 +17,7 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ADULTFAMILY_SMARTCARE }}
-          projectId: adultfamily-smartcare
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AFHOFFICE_C50A4 }}
+          projectId: afhoffice-c50a4
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
